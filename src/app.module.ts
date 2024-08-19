@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GuestsModule } from './modules/guest/guests.module';
 
 @Module({
   imports: [
@@ -12,14 +13,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_MYSQL_HOST || 'localhost',
-      port: parseInt(process.env.DB_MYSQL_PORT, 10 || 5432),
-      username: process.env.DB_MYSQL_USER || 'user',
-      password: process.env.DB_MYSQL_PASS || 'pass',
-      database: process.env.DB_MYSQL_DATABASE || 'test',
+      host: process.env.DB_SQL_HOST || 'localhost',
+      port: parseInt(process.env.DB_SQL_PORT, 10 || 5432),
+      username: process.env.DB_SQL_USER || 'user',
+      password: process.env.DB_SQL_PASS || 'pass',
+      database: process.env.DB_SQL_DATABASE || 'test',
       entities: [],
-      // synchronize: true,
+      autoLoadEntities: true,
+      synchronize: true,
     }),
+    GuestsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
